@@ -15,6 +15,7 @@
 #include <stack>
 #include <ctype.h>
 #include <algorithm>
+#include <regex>
 
 #include "tinyxml2.h"
 #include "stdio.h"
@@ -23,7 +24,10 @@
 #define ARGS_CHECK(argc,num) {if(argc!=num){printf("error args\n");return -1;}}
 #define FSTREAM_CHECK(fstream) {if(!fstream.is_open()){printf("error fstream\n");}}
 
+using namespace std;
 using namespace tinyxml2;
+using std::regex;
+using std::smatch;
 using std::fstream;
 using std::ios;
 using std::cin;
@@ -189,4 +193,8 @@ void writeInFile(string json,string file);
 string readFromFile(string file);
 //将一个字符串用jieba分词放入map中
 int cutStringWithJieba(string str,vector<string> &words);
+//传入：目标字符串，要删掉的字字符串    返回：删除目标后的字符串
+string strReplace(string resource_str,set<string> &repStr);
+//传入：目标字符串     返回：除掉<.*?>正则表达式的字符串
+string cleanXmlStr(string resource_str);
 #endif
