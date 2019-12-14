@@ -1,57 +1,64 @@
 #include "../inc/func.h"
 
-void print(XMLElement* elem,string elemName){
+string getElemText(XMLElement* elem){
 	const char* txt;
 	string str;
 	if(elem==nullptr){
-		cout<<elemName<<" is null"<<endl;
+		return "";
 	}else{
 		txt=elem->GetText();
 		if(txt==nullptr){
-			cout<<elemName<<" :null"<<endl;
+			return "";
 		}else{
 			str=txt;
-			cout<<elemName<<": "<<cleanXmlStr(str)<<endl;
+			return cleanXmlStr(str);
 		}
 	}
 }
+string itemTxtStr(XMLElement* Item,int docid){
+	XMLElement* Title=Item->FirstChildElement("title");//title
+	XMLElement* Link=Item->FirstChildElement("link");//link
+	XMLElement* Description=Item->FirstChildElement("description");//description
+	XMLElement* Content=Item->FirstChildElement("content:encoded");//content
 
+	string titleStr=getElemText(Title);
+	string linkStr=getElemText(Link);
+	string descriptionStr=getElemText(Description);
+	string contentStr=getElemText(Content);
+
+	string resStr="<doc><docid>"+to_string(docid)+"</docid><url>"+linkStr
+		+"</url><title>"+titleStr+"</title><content>"+descriptionStr+
+		contentStr+"</content></doc>";
+	return resStr;
+}		
 void test(string fileName){
 	XMLDocument doc;
 	XMLError errXml=doc.LoadFile(fileName.c_str());
 	if(XML_SUCCESS==errXml){
+		ofstream outPage;
+		outPage.open("ripepage.lib",ios::out);
+		ofstream outOffset;
+		outOffset.open("offset.lib",ios::out);
+		map<int,pair<long,size_t>> offsetLib;
 		XMLElement* Rss=doc.RootElement();//rss
 		XMLElement* Channel=Rss->FirstChildElement("channel");//channel
 
-		XMLElement* Title=Channel->FirstChildElement("title");//title
-		XMLElement* Link=Channel->FirstChildElement("link");//link
-		XMLElement* Description=Channel->FirstChildElement("description");//description
-		XMLElement* Content=Channel->FirstChildElement("content:encoded");//content
-		
-		print(Title,"title");
-		print(Link,"link");
-		print(Description,"description");
-		print(Content,"content");
+		int docid=1;
+		string txt=itemTxtStr(Channel,docid);
+		ofsFilePageLib(docid,txt,outPage,offsetLib);
+		++docid;
 
 		string s;
 		XMLElement* Item=Channel->FirstChildElement("item");//item
 		while(Item){
-			Title=Item->FirstChildElement("title");
-			Link=Item->FirstChildElement("link");
-			Description=Item->FirstChildElement("description");
-			Content=Item->FirstChildElement("content:encoded");
-
 			cin>>s;
-			print(Title,"title");
-			cin>>s;
-			print(Link,"link");
-			cin>>s;
-			print(Description,"description");
-			cin>>s;
-			print(Content,"content");
+			txt=itemTxtStr(Item,docid);
+			ofsFilePageLib(docid,txt,outPage,offsetLib);
+			++docid;
 
 			Item=Item->NextSiblingElement("item");
 		}
+		ofsFileOffsetLib(outOffset,offsetLib);
 	}
 }
 

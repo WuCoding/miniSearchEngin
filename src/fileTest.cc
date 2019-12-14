@@ -1,5 +1,6 @@
 #include "../inc/func.h"
 
+#if 0
 void test1(){
 	ifstream in;
 	in.open("inTest.txt",ios::in);
@@ -11,31 +12,43 @@ void test1(){
 		cout<<" "<<c<<" after:"<<in.tellg()<<endl;
 	}
 }
-void test2(){
-	string str("test");
-	ofstream out;
-	out.open("outTest.txt",ios::out);
-	for(int k=0;k<str.length();k++){
-		cout<<"before:"<<out.tellp();
-		out<<str[k];
-		cout<<" "<<str[k]<<" after:"<<out.tellp()<<endl;
-	}
-	out.close();
+#endif
+
+void ofsFilePageLib(int docid,string txt,ofstream &out,map<int,pair<long,size_t>> &offsetLib){
+	long offset=out.tellp();//偏移量
+	cout<<"偏移量:"<<offset<<endl;
+	size_t length=txt.size();//文章长度
+	cout<<"文章长度:"<<length<<endl;
+	out<<txt;
+	pair<long,size_t> node(offset,length);
+	offsetLib[docid]=node;
 }
+
+void ofsFileOffsetLib(ofstream &out,map<int,pair<long,size_t>> &offsetLib){
+	for(auto i:offsetLib){
+		out<<i.first<<" "<<i.second.first<<" "<<i.second.second<<endl;
+	}
+}
+
 //obtaining file size
 //const char * filename = "example.txt";
-#if 0
+
 void test3(){
-	long l,m;
-	ifstream file(filename,ios::in|ios::binary);
-	l=file.tellg();
-	file.seekg (0, ios::end);
-	m = file.tellg();
-	file.close();
-	cout << "size of " << filename;
-	cout << " is " << (m-l) << "bytes.\n";
+	ifstream in;
+	in.open("ripepage.lib",ios::in);
+
+	long int length;
+	long int offset;
+
+	cin>>offset>>length;
+
+	char* buff= new char[length];
+	in.seekg(offset,in.beg);
+	in.read(buff,length);
+	cout<<buff<<endl;
 }
-#endif
+
 int main(){
-	test2();
+	test3();
 }
+
