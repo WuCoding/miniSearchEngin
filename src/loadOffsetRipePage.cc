@@ -21,6 +21,7 @@ WebPage::WebPage(int docid,string title,string url,string content)
 :_docid(docid),_title(title),_url(url),_content(content)
 {
 	string str=_title+_content;
+	str=cleanCNString(str);
 	vector<string> words;
 	cutStringWithJieba(str,words);
 	for(auto i:words){

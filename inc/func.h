@@ -203,4 +203,5 @@ string cleanXmlStr(string resource_str);
 void ofsFilePageLib(int docid,string txt,ofstream &out,map<int,pair<long,size_t>> &offsetLib);
 //输出正向索引文件
 void ofsFileOffsetLib(ofstream &out,map<int,pair<long,size_t>> &offsetLib);
+string cleanCNString(string);
 #endif
