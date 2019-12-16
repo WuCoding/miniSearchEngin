@@ -2,27 +2,30 @@
 
 class WebPage{
 public:
-	WebPage(int docid,string title,string url,
-		string description,string content)
-	:_docid(docid),_title(title),_url(url),
-	_description(description),_content(content)
-	{}
+	WebPage(int docid,string title,string url,string content);
 	void print() const;
 private:
-	int _docid;//文件序号
-	string _title;//文章标题
-	string _url;//文章链接
-	string _description;//文章描述
-	string _content;//文章内容
-	map<string,int> _wordFreMap;//文章词频
+	int _docid;
+	string _title;
+	string _url;
+	string _content;
+	map<string,int> _wordFreMap;
 };
-
-void WebPage::print() const{
-	cout<<_docid<<" "<<_title<<" "<<_url<<" "
-		<<_description<<" "<<_content<<endl;
+WebPage::WebPage(int docid,string title,string url,string content)
+:_docid(docid),_title(title),_url(url),_content(content)
+{
+	string str=_title+_content;
+	str=cleanCNString(str);
+	vector<string> words;
+	cutStringWithJieba(str,words);
+	for(auto i:words){
+		++(_wordFreMap[i]);
+	}
 }
-
-int main(){
-	WebPage wp(1,"title","url","description","content");
-	wp.print();
+void WebPage::print() const{
+	cout<<_docid<<" "<<_title<<" "<<_url<<" "<<_wordFreMap.size()<<endl;
+	for(auto i:_wordFreMap){
+		cout<<i.first<<" ";
+	}
+	cout<<endl;
 }

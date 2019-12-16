@@ -1,5 +1,5 @@
 #include "../inc/func.h"
-
+#if 0
 class WebPage{
 public:
 	WebPage(int docid,string title,string url,string content);
@@ -28,7 +28,7 @@ WebPage::WebPage(int docid,string title,string url,string content)
 		++(_wordFreMap[i]);
 	}
 }
-
+#endif
 
 void loadOffset(string offsetLib,map<int,pair<long int,long int>> &offsetMap){
 	ifstream inOffset;
