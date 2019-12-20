@@ -1,5 +1,8 @@
 #include "../inc/func.h"
 
+//获得一个xml节点的文档内容，同时进行整理（去掉<p>、</p>等），如果节点为空返回空字符串
+//输入：xml节点
+//输出：字符串
 string getElemText(XMLElement* elem){
 	const char* txt;
 	string str;
@@ -15,6 +18,15 @@ string getElemText(XMLElement* elem){
 		}
 	}
 }
+//将一篇文章进行整理获得
+//<doc>
+//	<docid></docid>
+//	<url></url>
+//	<title></title>
+//	<content></content>
+//</doc>
+//输入：xml节点，文章id
+//返回：整理后的代表一个文章的字符串
 string itemTxtStr(XMLElement* Item,int docid){
 	XMLElement* Title=Item->FirstChildElement("title");//title
 	XMLElement* Link=Item->FirstChildElement("link");//link
@@ -30,7 +42,8 @@ string itemTxtStr(XMLElement* Item,int docid){
 		+"</url><title>"+titleStr+"</title><content>"+descriptionStr+
 		contentStr+"</content></doc>";
 	return resStr;
-}		
+}
+
 void test(string fileName){
 	XMLDocument doc;
 	XMLError errXml=doc.LoadFile(fileName.c_str());

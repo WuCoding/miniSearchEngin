@@ -199,6 +199,8 @@ int cutStringWithJieba(string str,vector<string> &words);
 string strReplace(string resource_str,set<string> &repStr);
 //传入：目标字符串     返回：除掉<.*?>正则表达式的字符串
 string cleanXmlStr(string resource_str);
+//获得两个字符串容器中相等的字符串个数
+int equalStrVec(const vector<string> &m,const vector<string> &n);
 //创建正向语料库的索引，同时输出网页库到文件
 void ofsFilePageLib(int docid,string txt,ofstream &out,map<int,pair<long,size_t>> &offsetLib);
 //输出正向索引文件

@@ -1,5 +1,8 @@
 #include "../inc/func.h"
 
+//获得两个字符串容器中相等字符串的个数
+//输入：要比较的两个 vector<string>
+//返回：相等的字符串个数
 int equalStrVec(const vector<string> &m,const vector<string> &n){
 	set<string> mSet;
 	mSet.insert(m.cbegin(),m.cend());
@@ -10,10 +13,4 @@ int equalStrVec(const vector<string> &m,const vector<string> &n){
 		}
 	}
 	return equelCount;
-}
-
-int main(){
-	vector<string> v1;
-	vector<string> v2;
-	cout<<equalStrVec(v1,v2)<<endl;
 }

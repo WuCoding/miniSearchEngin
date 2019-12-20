@@ -1,54 +1,18 @@
 #include "../inc/func.h"
 
-#if 0
-void test1(){
-	ifstream in;
-	in.open("inTest.txt",ios::in);
-	char c;
-
-	for(int n=0;n<4;++n){
-		cout<<"before: "<<in.tellg();
-		in>>c;
-		cout<<" "<<c<<" after:"<<in.tellg()<<endl;
-	}
-}
-#endif
-
+//获得一篇文章的起始位置和长度，加入到 map<int,pair<long,size_t>>容器，同时将文章输入到网页库中
+//输入：文章id，文章内容，网页库输出流，记录文章起始位置和长度的容器
 void ofsFilePageLib(int docid,string txt,ofstream &out,map<int,pair<long,size_t>> &offsetLib){
 	long offset=out.tellp();//偏移量
-	cout<<"偏移量:"<<offset<<endl;
 	size_t length=txt.size();//文章长度
-	cout<<"文章长度:"<<length<<endl;
 	out<<txt;
 	pair<long,size_t> node(offset,length);
 	offsetLib[docid]=node;
 }
-
+//将map<int,pair<long,size_t>>输出到偏移库中
+//输入：偏移库输出流，记录文章起始位置和长度的容器
 void ofsFileOffsetLib(ofstream &out,map<int,pair<long,size_t>> &offsetLib){
 	for(auto i:offsetLib){
 		out<<i.first<<" "<<i.second.first<<" "<<i.second.second<<endl;
 	}
 }
-
-//obtaining file size
-//const char * filename = "example.txt";
-
-void test3(){
-	ifstream in;
-	in.open("ripepage.lib",ios::in);
-
-	long int length;
-	long int offset;
-
-	cin>>offset>>length;
-
-	char* buff= new char[length];
-	in.seekg(offset,in.beg);
-	in.read(buff,length);
-	cout<<buff<<endl;
-}
-
-int main(){
-	test3();
-}
-
