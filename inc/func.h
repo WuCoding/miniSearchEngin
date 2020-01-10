@@ -160,6 +160,32 @@ private:
 	size_t _Capacity;//容量
 	map<string,CacheNode*> _keys;
 };
+//使用优先级队列获取前几关键词的类
+class TopQueNode{
+public:
+	TopQueNode(string word,int frequency)
+	:_word(word),_frequency(frequency)
+	{}
+	string word()const{
+		return _word;
+	}
+	int frequency()const{
+		return _frequency;
+	}
+	bool operator<(const TopQueNode &a) const{//true，本体（不是传参）放后面，false，本体放前面
+		if(a.frequency()<=_frequency){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	friend ostream& operator<<(ostream &out,const TopQueNode &node);
+	TopQueNode& operator=(const TopQueNode &a);
+private:
+	string _word;
+	int _frequency;
+};
+
 //输入语料，输出字典
 void wordFrequency(string corpusFile,string dictionaryFile);
 ///输入字典文件，输出索引文件
@@ -205,5 +231,10 @@ int equalStrVec(const vector<string> &m,const vector<string> &n);
 void ofsFilePageLib(int docid,string txt,ofstream &out,map<int,pair<long,size_t>> &offsetLib);
 //输出正向索引文件
 void ofsFileOffsetLib(ofstream &out,map<int,pair<long,size_t>> &offsetLib);
+//获得一个xml节点的文档内容，同时整理，节点为空则返回空字符串
+string getElemText(XMLElement* elem);
+//将一篇文章进行整理获得代表一个文章的字符串
+string itemTxtStr(XMLElement* Item,int docid);
+
 string cleanCNString(string);
 #endif

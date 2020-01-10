@@ -1,6 +1,6 @@
 #include "../inc/func.h"
 
-//传入：目标字符串，要删掉的字字符串
+//传入：目标字符串，要删掉的字字符串(set)
 //返回：删除目标后的字符串
 string strReplace(string resource_str,set<string> &repStr){
 	string::size_type pos;

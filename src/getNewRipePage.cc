@@ -52,7 +52,9 @@ void test(string fileName){
 		outPage.open("ripepage.lib",ios::out);
 		ofstream outOffset;
 		outOffset.open("offset.lib",ios::out);
-		map<int,pair<long,size_t>> offsetLib;
+
+		map<int,pair<long,size_t>> offsetLib;//偏移库
+		
 		XMLElement* Rss=doc.RootElement();//rss
 		XMLElement* Channel=Rss->FirstChildElement("channel");//channel
 
